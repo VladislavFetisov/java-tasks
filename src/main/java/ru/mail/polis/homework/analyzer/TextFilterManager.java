@@ -1,6 +1,8 @@
 package ru.mail.polis.homework.analyzer;
 
 
+import java.util.Arrays;
+
 /**
  * Задание написать систему фильтрации комментариев.
  * Надо реализовать три типа обязательных фильтров
@@ -17,19 +19,20 @@ package ru.mail.polis.homework.analyzer;
  * (SPAM, TOO_LONG, NEGATIVE_TEXT, CUSTOM - в таком порядке) и возвращать тип с максимальным приоритетом.
  * Отсортировать фильтра можно с помощью функции
  * Arrays.sort(filter, (filter1, filter2) -> {
- *     if (filter1 < filter2) {
- *         return -1;
- *     } else if (filter1 == filter2) {
- *         return 0;
- *     }
- *     return 1;
+ * if (filter1 < filter2) {
+ * return -1;
+ * } else if (filter1 == filter2) {
+ * return 0;
+ * }
+ * return 1;
  * }
  * где вместо сравнение самих фильтров должно быть стравнение каких-то количественных параметров фильтра
- *
+ * <p>
  * 2 балла ( + 2 балла за доп приоритет)
  * Итого 15 баллов + 2 дополнительных
  */
 public class TextFilterManager {
+    private final TextAnalyzer[] analyzers;
 
     /**
      * Для работы с каждым элементом массива, нужно использовать цикл for-each
@@ -37,13 +40,40 @@ public class TextFilterManager {
      * что в них реализован интерфейс TextAnalyzer
      */
     public TextFilterManager(TextAnalyzer[] filters) {
-
+        this.analyzers = filters;
     }
 
     /**
      * Если переменная текст никуда не ссылается, то это означает, что не один фильтр не сработал
      */
     public FilterType analyze(String text) {
-        return null;
+        if (text == null) {
+            return FilterType.GOOD;
+        }
+        System.out.println(Arrays.toString(analyzers));
+        Arrays.sort(analyzers, (analyzer1, analyzer2) -> {
+            FilterType[] filterTypes = FilterType.filterTypes;
+            boolean eq1;
+            boolean eq2;
+            for (FilterType filterType : filterTypes) {
+                eq1 = analyzer1.getFilterType() == filterType;
+                eq2 = analyzer2.getFilterType() == filterType;
+                if (eq1 && eq2) {
+                    return 0;
+                } else if (eq1) {
+                    return -1;
+                } else if (eq2) {
+                    return 1;
+                }
+            }
+            return 0;
+        });
+        System.out.println(Arrays.toString(analyzers));
+        for (TextAnalyzer textAnalyzer : analyzers) {
+            if (textAnalyzer.isNotValid(text)) {
+                return textAnalyzer.getFilterType();
+            }
+        }
+        return FilterType.GOOD;
     }
 }

@@ -4,5 +4,7 @@ package ru.mail.polis.homework.analyzer;
  * Типы фильтров (2 балла)
  */
 public enum FilterType {
-    ADA
+    SPAM, TOO_LONG, NEGATIVE_TEXT, CUSTOM, GOOD;
+
+    public static FilterType[] filterTypes = FilterType.values();
 }

@@ -44,6 +44,7 @@ public class IntegerAdvancedTaskTest {
         assertEquals('1', IntegerAdvancedTask.kDecimal(1, 1));
         assertEquals('1', IntegerAdvancedTask.kDecimal(17, 1));
         assertEquals('2', IntegerAdvancedTask.kDecimal(32, 2));
+        assertEquals('0', IntegerAdvancedTask.kDecimal(0, 1));
     }
 
     @Test
@@ -58,5 +59,6 @@ public class IntegerAdvancedTaskTest {
         assertEquals(1, IntegerAdvancedTask.minNumber(11));
         assertEquals(2, IntegerAdvancedTask.minNumber(171));
         assertEquals(3, IntegerAdvancedTask.minNumber(322));
+        assertEquals(1, IntegerAdvancedTask.minNumber(0));
     }
 }

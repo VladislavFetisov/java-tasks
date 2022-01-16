@@ -6,8 +6,9 @@ import java.util.function.Consumer;
  * Оболочка результата. Содержит уникальный айдишник, состояние запроса и результат (когда он появится)
  */
 public class Result {
-
     private final int id;
+    private Double value;
+    private ClientState state = ClientState.START;
 
     public Result(int id) {
         this.id = id;
@@ -36,14 +37,14 @@ public class Result {
      * Неблокирующий метод. Возвращает результат или null, если его еще нет
      */
     public Double getNonBlocking() {
-        return null;
+        return value;
     }
 
     /**
      * Показывает текущее состояние запроса
      */
     public ClientState getState() {
-        return null;
+        return state;
     }
 
     /**
@@ -53,5 +54,13 @@ public class Result {
      */
     public void cancel() {
 
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
+
+    public void setState(ClientState state) {
+        this.state = state;
     }
 }
